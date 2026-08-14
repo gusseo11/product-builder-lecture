@@ -151,7 +151,7 @@
 <body>
 
   <header>
-    <h1>🌾 2026 전국 지역·농촌 축제 지도</h1>
+    <h1>🌾 2026 대한민국 전국 축제 & 마을 상생 지도 (30선)</h1>
     <div class="filter-container">
       <div class="filter-group">
         <label for="season-select">계절:</label>
@@ -198,9 +198,9 @@
   <!-- Leaflet 지도 라이브러리 JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // 전국 대형 축제 + 소규모 농촌/마을 상생 축제 데이터셋
+    // 총 30개의 전국 축제 및 시골 마을 상생 축제 데이터
     const festivalData = [
-      // --- 농촌 / 마을 / 특산물 상생 축제 ---
+      // --- 경기 / 인천 / 서울 ---
       {
         name: "양평 용문산 산나물축제",
         season: "봄",
@@ -210,20 +210,132 @@
         lat: 37.5741,
         lng: 127.5721,
         period: "2026.04.24 ~ 04.26",
-        desc: "청정 양평 산자락에서 주민들과 함께 산나물을 채취하고 제철 청정 건강 먹거리를 나누는 상생 축제.",
+        desc: "청정 양평 산자락에서 주민들과 함께 산나물을 채취하고 건강 먹거리를 나누는 상생 축제.",
         link: "https://www.yp21.go.kr/"
       },
       {
-        name: "부안 오디뽕 축제",
+        name: "인천 펜타포트 락 페스티벌",
         season: "여름",
-        region: "전라",
+        region: "인천",
+        theme: "음악",
+        emoji: "🎵",
+        lat: 37.3912,
+        lng: 126.6345,
+        period: "2026.07.31 ~ 08.02",
+        desc: "국내외 정상급 아티스트들의 라이브 무대가 펼쳐지는 아웃도어 음악 축제.",
+        link: "https://pentaport.co.kr/"
+      },
+      {
+        name: "한강 페스티벌 (여름)",
+        season: "여름",
+        region: "서울",
+        theme: "음악",
+        emoji: "⛵",
+        lat: 37.5284,
+        lng: 126.9331,
+        period: "2026.08.01 ~ 08.16",
+        desc: "시원한 한강변에서 즐기는 물놀이, 야간 피크닉, 수변 문화 공연 프로그램.",
+        link: "https://festival.seoul.go.kr/hangang"
+      },
+      {
+        name: "이천 쌀문화축제",
+        season: "가을",
+        region: "경기",
         theme: "농촌상생",
-        emoji: "🫐",
-        lat: 35.7317,
-        lng: 126.7331,
-        period: "2026.06.05 ~ 06.07",
-        desc: "전북 부안 농가들과 함께 오디 따기 체험 및 지역 농산물 직거래 장터가 열리는 시골 마을 축제.",
-        link: "https://www.buan.go.kr/"
+        emoji: "🌾",
+        lat: 37.2801,
+        lng: 127.4425,
+        period: "2026.10.14 ~ 10.18",
+        desc: "이천 농가들이 모여 대형 가마솥 밥짓기 체험과 농경 문화를 공유하는 풍년 축제.",
+        link: "http://www.ricefestival.or.kr/"
+      },
+      {
+        name: "파주 장단콩축제",
+        season: "가을",
+        region: "경기",
+        theme: "농촌상생",
+        emoji: "🫘",
+        lat: 37.8924,
+        lng: 126.7451,
+        period: "2026.11.20 ~ 11.22",
+        desc: "임진각 광장에서 열리는 명품 파주 장단콩 및 농특산물 직거래 상생 한마당.",
+        link: "https://www.paju.go.kr/"
+      },
+
+      // --- 강원도 ---
+      {
+        name: "화천 산천어축제",
+        season: "겨울",
+        region: "강원",
+        theme: "음식",
+        emoji: "🎣",
+        lat: 38.1062,
+        lng: 127.7082,
+        period: "2026.01.10 ~ 02.01",
+        desc: "얼음 낚시와 맨손 잡기로 산천어를 낚는 신나는 겨울 대표 낚시 페스티벌.",
+        link: "https://www.narafestival.com/"
+      },
+      {
+        name: "홍천 인삼·한우 축제",
+        season: "가을",
+        region: "강원",
+        theme: "음식",
+        emoji: "🥩",
+        lat: 37.6972,
+        lng: 127.8887,
+        period: "2026.10.08 ~ 10.11",
+        desc: "강원도 홍천 축산농가와 인삼 농가가 함께 준비한 고품질 시골 특산물 상생 한마당.",
+        link: "http://www.hccf.or.kr/"
+      },
+      {
+        name: "평창 효석문화제",
+        season: "가을",
+        region: "강원",
+        theme: "꽃",
+        emoji: "🌼",
+        lat: 37.5954,
+        lng: 128.3188,
+        period: "2026.09.04 ~ 09.13",
+        desc: "하얀 메밀꽃밭이 펼쳐지는 봉평 효석문화마을에서 즐기는 감성 문학 축제.",
+        link: "http://www.hyoseok.net/"
+      },
+      {
+        name: "횡성한우축제",
+        season: "가을",
+        region: "강원",
+        theme: "음식",
+        emoji: "🐂",
+        lat: 37.4901,
+        lng: 127.9852,
+        period: "2026.10.02 ~ 10.06",
+        desc: "횡성 농가들의 고품질 한우 셀프 식당과 농특산물 판매장이 열리는 맛있는 축제.",
+        link: "http://www.hsg.go.kr/tour/hsu.web"
+      },
+      {
+        name: "양구 곰취축제",
+        season: "봄",
+        region: "강원",
+        theme: "농촌상생",
+        emoji: "🥬",
+        lat: 38.1075,
+        lng: 127.9892,
+        period: "2026.05.03 ~ 05.06",
+        desc: "DMZ 청정지역 양구 농가에서 재배한 쌉싸름한 곰취 수확 및 쌈밥 체험 축제.",
+        link: "http://www.ygcf.or.kr/"
+      },
+
+      // --- 충청도 ---
+      {
+        name: "보령 머드축제",
+        season: "여름",
+        region: "충청",
+        theme: "문화",
+        emoji: "🌊",
+        lat: 36.3052,
+        lng: 126.5152,
+        period: "2026.07.24 ~ 08.09",
+        desc: "대천해수욕장에서 열리는 남녀노소 전 세계인의 열정적인 머드 체험 페스티벌.",
+        link: "https://www.mudfestival.or.kr/"
       },
       {
         name: "괴산 고추축제",
@@ -238,18 +350,6 @@
         link: "https://www.goesan.go.kr/festival/index.do"
       },
       {
-        name: "보성 다향대축제",
-        season: "봄",
-        region: "전라",
-        theme: "농촌상생",
-        emoji: "🍵",
-        lat: 34.7714,
-        lng: 127.0798,
-        period: "2026.05.01 ~ 05.05",
-        desc: "초록빛 차밭에서 차잎 따기 체험 및 보성 농업인들과 함께하는 한국 대표 녹차 문화 축제.",
-        link: "http://www.boseong.go.kr/tour/festival/dahyang"
-      },
-      {
         name: "영동 포도축제",
         season: "여름",
         region: "충청",
@@ -258,71 +358,121 @@
         lat: 36.1750,
         lng: 127.7783,
         period: "2026.08.20 ~ 08.23",
-        desc: "충북 영동 과수원 농가 돕기 체험! 포도 따기, 와인 발밟기, 제철 과일 상생장터.",
+        desc: "충북 영동 과수원 농가 돕기 체험! 포도 따기, 와인 발밟기, 제철 과일 장터.",
         link: "https://www.yd21.go.kr/"
       },
       {
-        name: "함양 산삼축제",
-        season: "가을",
-        region: "경상",
-        theme: "농촌상생",
-        emoji: "🌱",
-        lat: 35.5205,
-        lng: 127.7252,
-        period: "2026.09.10 ~ 09.14",
-        desc: "지리산 청정 농산물 산삼 심마니 체험과 지역 심마니 농가 자립을 돕는 이색 축제.",
-        link: "http://www.sansamfestival.com/"
+        name: "태안 튤립꽃축제",
+        season: "봄",
+        region: "충청",
+        theme: "꽃",
+        emoji: "🌷",
+        lat: 36.6433,
+        lng: 126.3021,
+        period: "2026.04.10 ~ 05.10",
+        desc: "안면도 꽃지해안공원에서 펼쳐지는 화려한 튤립과 수선화의 대향연.",
+        link: "http://www.koreaflowerpark.com/"
       },
       {
-        name: "제주 감귤 박람회 & 마을 축제",
-        season: "겨울",
-        region: "제주",
-        theme: "농촌상생",
-        emoji: "🍊",
-        lat: 33.3082,
-        lng: 126.5685,
-        period: "2026.11.20 ~ 11.24",
-        desc: "제주 감귤 농가들과 함께 귤 따기 체험 및 겨울철 제철 과일 직공수 이벤트.",
-        link: "http://www.jicex.or.kr/"
-      },
-      {
-        name: "홍천 인삼·한우 축제",
-        season: "가을",
-        region: "강원",
-        theme: "음식",
-        emoji: "🥩",
-        lat: 37.6972,
-        lng: 127.8887,
-        period: "2026.10.08 ~ 10.11",
-        desc: "강원도 홍천 축산농가와 인삼 농가가 함께 준비한 고품질 시골 특산물 상생 한마당.",
-        link: "http://www.hccf.or.kr/"
-      },
-
-      // --- 전국 문화/음악/꽃 대표 축제 ---
-      {
-        name: "인천 펜타포트 락 페스티벌",
-        season: "여름",
-        region: "인천",
-        theme: "음악",
-        emoji: "🎵",
-        lat: 37.3912,
-        lng: 126.6345,
-        period: "2026.07.31 ~ 08.02",
-        desc: "국내외 정상급 아티스트들의 뜨거운 라이브 무대가 펼쳐지는 아웃도어 음악 축제.",
-        link: "https://pentaport.co.kr/"
-      },
-      {
-        name: "보령 머드축제",
-        season: "여름",
+        name: "음성 품바축제",
+        season: "봄",
         region: "충청",
         theme: "문화",
-        emoji: "🌊",
-        lat: 36.3052,
-        lng: 126.5152,
-        period: "2026.07.24 ~ 08.09",
-        desc: "전 세계인이 함께 즐기는 대천해수욕장의 열정적인 머드 체험 페스티벌.",
-        link: "https://www.mudfestival.or.kr/"
+        emoji: "🏮",
+        lat: 36.9351,
+        lng: 127.6908,
+        period: "2026.05.20 ~ 05.24",
+        desc: "해학과 풍자가 넘치는 품바 길놀이와 신명나는 지역 상생 전통 축제.",
+        link: "http://www.pumba21.com/"
       },
+      {
+        name: "금산 인삼축제",
+        season: "가을",
+        region: "충청",
+        theme: "농촌상생",
+        emoji: "🫚",
+        lat: 36.1038,
+        lng: 127.4883,
+        period: "2026.10.02 ~ 10.11",
+        desc: "금산 인삼 농가 자립을 돕는 인삼 깎기, 캐기 체험 및 인삼 보양식 거리.",
+        link: "http://www.insamfestival.co.kr/"
+      },
+
+      // --- 전라도 ---
+      {
+        name: "부안 오디뽕 축제",
+        season: "여름",
+        region: "전라",
+        theme: "농촌상생",
+        emoji: "🫐",
+        lat: 35.7317,
+        lng: 126.7331,
+        period: "2026.06.05 ~ 06.07",
+        desc: "전북 부안 농가들과 함께 오디 따기 체험 및 지역 농산물 직거래 장터.",
+        link: "https://www.buan.go.kr/"
+      },
+      {
+        name: "보성 다향대축제",
+        season: "봄",
+        region: "전라",
+        theme: "농촌상생",
+        emoji: "🍵",
+        lat: 34.7714,
+        lng: 127.0798,
+        period: "2026.05.01 ~ 05.05",
+        desc: "초록빛 차밭에서 찻잎 따기 체험 및 보성 농업인들과 함께하는 녹차 문화 축제.",
+        link: "http://www.boseong.go.kr/"
+      },
+      {
+        name: "전주 비빔밥 축제",
+        season: "가을",
+        region: "전라",
+        theme: "음식",
+        emoji: "🍚",
+        lat: 35.8147,
+        lng: 127.1526,
+        period: "2026.10.15 ~ 10.18",
+        desc: "맛의 고장 전주에서 펼쳐지는 대형 비빔밥 퍼포먼스와 남도 음식 여행.",
+        link: "http://www.bibimbapfest.com/"
+      },
+      {
+        name: "무주 반딧불축제",
+        season: "가을",
+        region: "전라",
+        theme: "꽃",
+        emoji: "✨",
+        lat: 35.9835,
+        lng: 127.6608,
+        period: "2026.09.04 ~ 09.12",
+        desc: "청정 무주 밤하늘을 수놓는 반딧불이 탐사와 자연 생태 체험 마을 축제.",
+        link: "http://www.firefly.or.kr/"
+      },
+      {
+        name: "고창 청보리밭 축제",
+        season: "봄",
+        region: "전라",
+        theme: "농촌상생",
+        emoji: "🌾",
+        lat: 35.3533,
+        lng: 126.5982,
+        period: "2026.04.18 ~ 05.10",
+        desc: "초록빛 학원농장 보리밭을 거닐며 시골 주민들의 농가 맛집을 체험하는 축제.",
+        link: "http://www.borinara.co.kr/"
+      },
+      {
+        name: "순천만 국가정원 가을축제",
+        season: "가을",
+        region: "전라",
+        theme: "꽃",
+        emoji: "🌺",
+        lat: 34.9333,
+        lng: 127.5085,
+        period: "2026.09.20 ~ 10.31",
+        desc: "갈대밭과 화려한 가을 꽃밭이 어우러지는 힐링 자연 정원 축제.",
+        link: "https://scbay.suncheon.go.kr/"
+      },
+
+      // --- 경상도 ---
       {
         name: "진해 군항제",
         season: "봄",
@@ -344,61 +494,87 @@
         lat: 36.5684,
         lng: 128.7292,
         period: "2026.09.24 ~ 10.04",
-        desc: "세계 각국의 탈춤 공연과 전통 탈춤 문화를 체험하는 흥겨운 한마당.",
+        desc: "세계 각국의 탈춤 공연과 신명나는 한국 전통 탈춤 문화를 체험하는 축제.",
         link: "http://www.maskdance.com/"
       },
       {
-        name: "전주 비빔밥 축제",
+        name: "함양 산삼축제",
         season: "가을",
-        region: "전라",
-        theme: "음식",
-        emoji: "🍚",
-        lat: 35.8147,
-        lng: 127.1526,
-        period: "2026.10.15 ~ 10.18",
-        desc: "맛의 고장 전주에서 펼쳐지는 대형 비빔밥 퍼포먼스와 맛있는 남도 음식 여행.",
-        link: "http://www.bibimbapfest.com/"
+        region: "경상",
+        theme: "농촌상생",
+        emoji: "🌱",
+        lat: 35.5205,
+        lng: 127.7252,
+        period: "2026.09.10 ~ 09.14",
+        desc: "지리산 청정 농산물 산삼 심마니 체험과 지역 심마니 농가 자립을 돕는 축제.",
+        link: "http://www.sansamfestival.com/"
       },
       {
-        name: "화천 산천어축제",
-        season: "겨울",
-        region: "강원",
-        theme: "음식",
-        emoji: "🎣",
-        lat: 38.1062,
-        lng: 127.7082,
-        period: "2026.01.10 ~ 02.01",
-        desc: "얼음 낚시와 맨손 잡기로 산천어를 낚는 대표 겨울 스포츠 축제.",
-        link: "https://www.narafestival.com/"
+        name: "청송 사과축제",
+        season: "가을",
+        region: "경상",
+        theme: "농촌상생",
+        emoji: "🍎",
+        lat: 36.4358,
+        lng: 129.0573,
+        period: "2026.11.04 ~ 11.08",
+        desc: "꿀사과의 고장 청송에서 과수 농가와 함께하는 사과 요리 및 상생 장터.",
+        link: "http://www.cs.go.kr/"
       },
       {
-        name: "한강 페스티벌 (여름)",
-        season: "여름",
-        region: "서울",
-        theme: "음악",
-        emoji: "⛵",
-        lat: 37.5284,
-        lng: 126.9331,
-        period: "2026.08.01 ~ 08.16",
-        desc: "시원한 한강변에서 즐기는 물놀이, 야간 피크닉, 수변 문화 공연 프로그램.",
-        link: "https://festival.seoul.go.kr/hangang"
-      },
-      {
-        name: "태안 튤립꽃축제",
+        name: "창녕 부곡온천 축제",
         season: "봄",
-        region: "충청",
-        theme: "꽃",
-        emoji: "🌷",
-        lat: 36.6433,
-        lng: 126.3021,
-        period: "2026.04.10 ~ 05.10",
-        desc: "안면도 꽃지해안공원에서 펼쳐지는 화려한 튤립과 수선화의 대향연.",
-        link: "http://www.koreaflowerpark.com/"
+        region: "경상",
+        theme: "문화",
+        emoji: "♨️",
+        lat: 35.5398,
+        lng: 128.5283,
+        period: "2026.04.03 ~ 04.05",
+        desc: "온천수 힐링 체험과 시골 온천 상권을 살리기 위한 온천 가요제 및 축제.",
+        link: "https://www.cng.go.kr/"
+      },
+      {
+        name: "밀양 아리랑대축제",
+        season: "봄",
+        region: "경상",
+        theme: "문화",
+        emoji: "🪕",
+        lat: 35.4912,
+        lng: 128.7491,
+        period: "2026.05.21 ~ 05.24",
+        desc: "밀양 영남루와 밀양강을 배경으로 펼쳐지는 전통 아리랑 멀티미디어 쇼.",
+        link: "http://www.arirang.or.kr/"
+      },
+
+      // --- 제주도 ---
+      {
+        name: "제주 감귤 박람회 & 마을 축제",
+        season: "겨울",
+        region: "제주",
+        theme: "농촌상생",
+        emoji: "🍊",
+        lat: 33.3082,
+        lng: 126.5685,
+        period: "2026.11.20 ~ 11.24",
+        desc: "제주 감귤 농가들과 함께 귤 따기 체험 및 겨울철 제철 과일 직공수 이벤트.",
+        link: "http://www.jicex.or.kr/"
+      },
+      {
+        name: "제주 들불축제",
+        season: "봄",
+        region: "제주",
+        theme: "문화",
+        emoji: "🔥",
+        lat: 33.3617,
+        lng: 126.3582,
+        period: "2026.03.12 ~ 03.15",
+        desc: "새봄 새 희망을 기원하며 새별오름 들불을 피우는 제주 대표 전통 민속 축제.",
+        link: "https://www.jejusi.go.kr/bururi/main.do"
       }
     ];
 
     // 지도 초기화
-    const map = L.map('map').setView([36.2, 127.8], 7);
+    const map = L.map('map').setView([36.1, 127.8], 7);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
