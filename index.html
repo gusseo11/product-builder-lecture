@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2026 대한민국 전국 축제 지도</title>
+  <title>2026 대한민국 전국 축제 & 마을 상생 지도</title>
   <!-- Leaflet 지도 라이브러리 CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
@@ -30,8 +30,8 @@
     }
 
     h1 {
-      font-size: 1.4rem;
-      color: #333;
+      font-size: 1.3rem;
+      color: #2c3e50;
       margin-bottom: 12px;
       text-align: center;
     }
@@ -52,14 +52,14 @@
     .filter-group label {
       font-size: 0.85rem;
       font-weight: bold;
-      color: #666;
+      color: #555;
     }
 
     select {
-      padding: 6px 12px;
+      padding: 6px 10px;
       border: 1px solid #ddd;
       border-radius: 6px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       outline: none;
       background-color: #fff;
       cursor: pointer;
@@ -73,74 +73,85 @@
 
     /* Leaflet 이모티콘 마커 커스텀 스타일 */
     .emoji-marker {
-      font-size: 24px;
+      font-size: 22px;
       text-align: center;
-      line-height: 36px;
+      line-height: 34px;
       background: #ffffff;
       border-radius: 50%;
-      border: 2px solid #333;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      border: 2px solid #2c3e50;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
       width: 36px !important;
       height: 36px !important;
       transition: transform 0.2s;
     }
 
     .emoji-marker:hover {
-      transform: scale(1.2);
+      transform: scale(1.25);
     }
 
     /* 지도 팝업 커스텀 스타일 */
     .popup-card {
-      padding: 5px;
-      max-width: 240px;
+      padding: 4px;
+      max-width: 250px;
+    }
+
+    .popup-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-bottom: 6px;
     }
 
     .popup-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: bold;
-      color: #2c3e50;
-      border-bottom: 2px solid #3498db;
-      padding-bottom: 5px;
-      margin-bottom: 8px;
+      color: #1a252f;
+      border-bottom: 2px solid #27ae60;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .popup-date {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #e67e22;
       font-weight: 600;
       margin-bottom: 6px;
     }
 
     .popup-desc {
-      font-size: 0.85rem;
-      color: #555;
+      font-size: 0.8rem;
+      color: #444;
       line-height: 1.4;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .popup-btn {
       display: block;
       width: 100%;
       text-align: center;
-      background-color: #3498db;
+      background-color: #27ae60;
       color: #ffffff !important;
-      padding: 8px 0;
+      padding: 7px 0;
       border-radius: 6px;
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: bold;
       transition: background-color 0.2s;
     }
 
     .popup-btn:hover {
-      background-color: #2980b9;
+      background-color: #219150;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>🎉 2026 대한민국 전국 축제 지도</h1>
+    <h1>🌾 2026 전국 지역·농촌 축제 지도</h1>
     <div class="filter-container">
       <div class="filter-group">
         <label for="season-select">계절:</label>
@@ -172,9 +183,10 @@
         <label for="theme-select">테마:</label>
         <select id="theme-select">
           <option value="all">전체</option>
-          <option value="음악">🎵 음악</option>
+          <option value="농촌상생">🚜 농촌/마을상생</option>
+          <option value="음식">🍱 특산물/음식</option>
           <option value="꽃">🌸 꽃/자연</option>
-          <option value="음식">🍱 음식/특산물</option>
+          <option value="음악">🎵 음악/공연</option>
           <option value="문화">🎭 전통/문화</option>
         </select>
       </div>
@@ -186,8 +198,107 @@
   <!-- Leaflet 지도 라이브러리 JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // 1. 전국 주요 축제 데이터 샘플
+    // 전국 대형 축제 + 소규모 농촌/마을 상생 축제 데이터셋
     const festivalData = [
+      // --- 농촌 / 마을 / 특산물 상생 축제 ---
+      {
+        name: "양평 용문산 산나물축제",
+        season: "봄",
+        region: "경기",
+        theme: "농촌상생",
+        emoji: "🌿",
+        lat: 37.5741,
+        lng: 127.5721,
+        period: "2026.04.24 ~ 04.26",
+        desc: "청정 양평 산자락에서 주민들과 함께 산나물을 채취하고 제철 청정 건강 먹거리를 나누는 상생 축제.",
+        link: "https://www.yp21.go.kr/"
+      },
+      {
+        name: "부안 오디뽕 축제",
+        season: "여름",
+        region: "전라",
+        theme: "농촌상생",
+        emoji: "🫐",
+        lat: 35.7317,
+        lng: 126.7331,
+        period: "2026.06.05 ~ 06.07",
+        desc: "전북 부안 농가들과 함께 오디 따기 체험 및 지역 농산물 직거래 장터가 열리는 시골 마을 축제.",
+        link: "https://www.buan.go.kr/"
+      },
+      {
+        name: "괴산 고추축제",
+        season: "가을",
+        region: "충청",
+        theme: "농촌상생",
+        emoji: "🌶️",
+        lat: 36.8153,
+        lng: 127.7865,
+        period: "2026.08.27 ~ 08.30",
+        desc: "충북 괴산 지역 농가들을 돕는 고추 털어내기, 고추장 만들기 및 직거래 한마당.",
+        link: "https://www.goesan.go.kr/festival/index.do"
+      },
+      {
+        name: "보성 다향대축제",
+        season: "봄",
+        region: "전라",
+        theme: "농촌상생",
+        emoji: "🍵",
+        lat: 34.7714,
+        lng: 127.0798,
+        period: "2026.05.01 ~ 05.05",
+        desc: "초록빛 차밭에서 차잎 따기 체험 및 보성 농업인들과 함께하는 한국 대표 녹차 문화 축제.",
+        link: "http://www.boseong.go.kr/tour/festival/dahyang"
+      },
+      {
+        name: "영동 포도축제",
+        season: "여름",
+        region: "충청",
+        theme: "농촌상생",
+        emoji: "🍇",
+        lat: 36.1750,
+        lng: 127.7783,
+        period: "2026.08.20 ~ 08.23",
+        desc: "충북 영동 과수원 농가 돕기 체험! 포도 따기, 와인 발밟기, 제철 과일 상생장터.",
+        link: "https://www.yd21.go.kr/"
+      },
+      {
+        name: "함양 산삼축제",
+        season: "가을",
+        region: "경상",
+        theme: "농촌상생",
+        emoji: "🌱",
+        lat: 35.5205,
+        lng: 127.7252,
+        period: "2026.09.10 ~ 09.14",
+        desc: "지리산 청정 농산물 산삼 심마니 체험과 지역 심마니 농가 자립을 돕는 이색 축제.",
+        link: "http://www.sansamfestival.com/"
+      },
+      {
+        name: "제주 감귤 박람회 & 마을 축제",
+        season: "겨울",
+        region: "제주",
+        theme: "농촌상생",
+        emoji: "🍊",
+        lat: 33.3082,
+        lng: 126.5685,
+        period: "2026.11.20 ~ 11.24",
+        desc: "제주 감귤 농가들과 함께 귤 따기 체험 및 겨울철 제철 과일 직공수 이벤트.",
+        link: "http://www.jicex.or.kr/"
+      },
+      {
+        name: "홍천 인삼·한우 축제",
+        season: "가을",
+        region: "강원",
+        theme: "음식",
+        emoji: "🥩",
+        lat: 37.6972,
+        lng: 127.8887,
+        period: "2026.10.08 ~ 10.11",
+        desc: "강원도 홍천 축산농가와 인삼 농가가 함께 준비한 고품질 시골 특산물 상생 한마당.",
+        link: "http://www.hccf.or.kr/"
+      },
+
+      // --- 전국 문화/음악/꽃 대표 축제 ---
       {
         name: "인천 펜타포트 락 페스티벌",
         season: "여름",
@@ -197,19 +308,19 @@
         lat: 37.3912,
         lng: 126.6345,
         period: "2026.07.31 ~ 08.02",
-        desc: "대한민국 대표 아웃도어 락 페스티벌! 국내외 정상급 아티스트들의 뜨거운 라이브 무대.",
+        desc: "국내외 정상급 아티스트들의 뜨거운 라이브 무대가 펼쳐지는 아웃도어 음악 축제.",
         link: "https://pentaport.co.kr/"
       },
       {
         name: "보령 머드축제",
         season: "여름",
         region: "충청",
-        theme: "음식",
+        theme: "문화",
         emoji: "🌊",
         lat: 36.3052,
         lng: 126.5152,
         period: "2026.07.24 ~ 08.09",
-        desc: "남녀노소 전 세계인이 함께 즐기는 대천해수욕장의 열정적인 머드 체험 페스티벌.",
+        desc: "전 세계인이 함께 즐기는 대천해수욕장의 열정적인 머드 체험 페스티벌.",
         link: "https://www.mudfestival.or.kr/"
       },
       {
@@ -221,7 +332,7 @@
         lat: 35.1485,
         lng: 128.6653,
         period: "2026.03.25 ~ 04.03",
-        desc: "수십만 그루의 벚꽃이 도심 전체를 분홍빛으로 물들이는 국내 최대 규모 벚꽃 축제.",
+        desc: "수십만 그루의 벚꽃이 도심 전체를 분홍빛으로 물들이는 대한민국 대표 벚꽃 축제.",
         link: "https://www.changwon.go.kr/gunhang/"
       },
       {
@@ -233,7 +344,7 @@
         lat: 36.5684,
         lng: 128.7292,
         period: "2026.09.24 ~ 10.04",
-        desc: "세계 각국의 탈춤 공연과 신명나는 한국 전통 탈춤 문화의 정수를 체험하는 축제.",
+        desc: "세계 각국의 탈춤 공연과 전통 탈춤 문화를 체험하는 흥겨운 한마당.",
         link: "http://www.maskdance.com/"
       },
       {
@@ -257,7 +368,7 @@
         lat: 38.1062,
         lng: 127.7082,
         period: "2026.01.10 ~ 02.01",
-        desc: "얼음 낚시와 맨손 잡기로 산천어를 낚는 신나는 겨울 대표 낚시 페스티벌.",
+        desc: "얼음 낚시와 맨손 잡기로 산천어를 낚는 대표 겨울 스포츠 축제.",
         link: "https://www.narafestival.com/"
       },
       {
@@ -271,26 +382,35 @@
         period: "2026.08.01 ~ 08.16",
         desc: "시원한 한강변에서 즐기는 물놀이, 야간 피크닉, 수변 문화 공연 프로그램.",
         link: "https://festival.seoul.go.kr/hangang"
+      },
+      {
+        name: "태안 튤립꽃축제",
+        season: "봄",
+        region: "충청",
+        theme: "꽃",
+        emoji: "🌷",
+        lat: 36.6433,
+        lng: 126.3021,
+        period: "2026.04.10 ~ 05.10",
+        desc: "안면도 꽃지해안공원에서 펼쳐지는 화려한 튤립과 수선화의 대향연.",
+        link: "http://www.koreaflowerpark.com/"
       }
     ];
 
-    // 2. 대한민국 중심 좌표로 지도 초기화
+    // 지도 초기화
     const map = L.map('map').setView([36.2, 127.8], 7);
 
-    // 타일 레이어 추가 (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // 마커들을 담을 그룹 레이어
     let markerGroup = L.layerGroup().addTo(map);
 
-    // 3. 마커 렌더링 함수
+    // 마커 표시
     function renderMarkers(data) {
-      markerGroup.clearLayers(); // 기존 마커 제거
+      markerGroup.clearLayers();
 
       data.forEach(item => {
-        // 이모티콘 커스텀 마커 아이콘 생성
         const customIcon = L.divIcon({
           className: 'custom-div-icon',
           html: `<div class="emoji-marker">${item.emoji}</div>`,
@@ -298,9 +418,9 @@
           iconAnchor: [18, 18]
         });
 
-        // 팝업 내용 작성
         const popupContent = `
           <div class="popup-card">
+            <span class="popup-tag">#${item.theme}</span>
             <div class="popup-title">${item.name}</div>
             <div class="popup-date">🗓️ ${item.period}</div>
             <div class="popup-desc">${item.desc}</div>
@@ -308,14 +428,13 @@
           </div>
         `;
 
-        // 지도에 마커 추가
         L.marker([item.lat, item.lng], { icon: customIcon })
           .bindPopup(popupContent)
           .addTo(markerGroup);
       });
     }
 
-    // 4. 필터링 로직
+    // 필터링 기능
     function filterFestivals() {
       const seasonValue = document.getElementById('season-select').value;
       const regionValue = document.getElementById('region-select').value;
@@ -324,19 +443,17 @@
       const filtered = festivalData.filter(item => {
         const seasonMatch = (seasonValue === 'all' || item.season === seasonValue);
         const regionMatch = (regionValue === 'all' || item.region === regionValue);
-        const themeMatch = (themeValue === 'all' || item.theme === themeMatch);
+        const themeMatch = (themeValue === 'all' || item.theme === themeValue);
         return seasonMatch && regionMatch && themeMatch;
       });
 
       renderMarkers(filtered);
     }
 
-    // 필터 이벤트 리스너 등록
     document.getElementById('season-select').addEventListener('change', filterFestivals);
     document.getElementById('region-select').addEventListener('change', filterFestivals);
     document.getElementById('theme-select').addEventListener('change', filterFestivals);
 
-    // 최초 마커 표시
     renderMarkers(festivalData);
   </script>
 </body>
