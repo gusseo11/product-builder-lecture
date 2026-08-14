@@ -27,13 +27,36 @@
       padding: 15px 20px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       z-index: 1000;
+      position: relative;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
     h1 {
       font-size: 1.3rem;
       color: #2c3e50;
-      margin-bottom: 12px;
-      text-align: center;
+    }
+
+    /* 제휴 문의 열기 버튼 */
+    .contact-btn {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .contact-btn:hover {
+      background-color: #219150;
     }
 
     .filter-container {
@@ -146,12 +169,110 @@
     .popup-btn:hover {
       background-color: #219150;
     }
+
+    /* 모달(팝업) 배경 스타일 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 모달 모달창 스타일 */
+    .modal-content {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 1.15rem;
+      color: #2c3e50;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #888;
+    }
+
+    /* Formspree 폼 스타일 */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #444;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #27ae60;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #219150;
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>🌾 2026 대한민국 전국 축제 & 마을 상생 지도 (30선)</h1>
+    <div class="header-top">
+      <h1>🌾 2026 전국 축제 & 마을 상생 지도</h1>
+      <button class="contact-btn" id="openModalBtn">🤝 축제 등록 / 제휴 문의</button>
+    </div>
+
     <div class="filter-container">
       <div class="filter-group">
         <label for="season-select">계절:</label>
@@ -195,12 +316,41 @@
 
   <div id="map"></div>
 
+  <!-- Formspree 제휴 문의 모달 창 -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🤝 축제 등록 및 제휴 문의</h2>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+
+      <!-- Formspree 연동 폼 -->
+      <form action="https://formspree.io/f/xwleqovv" method="POST">
+        <div class="form-group">
+          <label for="org">단체/기관명 (또는 이름)</label>
+          <input type="text" id="org" name="organization" placeholder="예: 양평군청 / 개인" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">답변받으실 이메일</label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="message">문의 내용 (축제 정보 또는 제휴 내용)</label>
+          <textarea id="message" name="message" placeholder="지도에 추가하고 싶으신 축제 정보나 제휴 문의 내용을 자유롭게 적어주세요." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">보내기</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Leaflet 지도 라이브러리 JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     // 총 30개의 전국 축제 및 시골 마을 상생 축제 데이터
     const festivalData = [
-      // --- 경기 / 인천 / 서울 ---
       {
         name: "양평 용문산 산나물축제",
         season: "봄",
@@ -261,8 +411,6 @@
         desc: "임진각 광장에서 열리는 명품 파주 장단콩 및 농특산물 직거래 상생 한마당.",
         link: "https://www.paju.go.kr/"
       },
-
-      // --- 강원도 ---
       {
         name: "화천 산천어축제",
         season: "겨울",
@@ -323,8 +471,6 @@
         desc: "DMZ 청정지역 양구 농가에서 재배한 쌉싸름한 곰취 수확 및 쌈밥 체험 축제.",
         link: "http://www.ygcf.or.kr/"
       },
-
-      // --- 충청도 ---
       {
         name: "보령 머드축제",
         season: "여름",
@@ -397,8 +543,6 @@
         desc: "금산 인삼 농가 자립을 돕는 인삼 깎기, 캐기 체험 및 인삼 보양식 거리.",
         link: "http://www.insamfestival.co.kr/"
       },
-
-      // --- 전라도 ---
       {
         name: "부안 오디뽕 축제",
         season: "여름",
@@ -471,8 +615,6 @@
         desc: "갈대밭과 화려한 가을 꽃밭이 어우러지는 힐링 자연 정원 축제.",
         link: "https://scbay.suncheon.go.kr/"
       },
-
-      // --- 경상도 ---
       {
         name: "진해 군항제",
         season: "봄",
@@ -545,8 +687,6 @@
         desc: "밀양 영남루와 밀양강을 배경으로 펼쳐지는 전통 아리랑 멀티미디어 쇼.",
         link: "http://www.arirang.or.kr/"
       },
-
-      // --- 제주도 ---
       {
         name: "제주 감귤 박람회 & 마을 축제",
         season: "겨울",
@@ -631,6 +771,25 @@
     document.getElementById('theme-select').addEventListener('change', filterFestivals);
 
     renderMarkers(festivalData);
+
+    // 모달(팝업창) 열기/닫기 스크립트
+    const modal = document.getElementById('contactModal');
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+
+    openBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
